@@ -50,10 +50,27 @@ allCards.forEach(function(card){
             if (openCards.length == 2){
                 switch(openCards[0].firstElementChild.className == openCards[1].firstElementChild.className){
                     case true:
+                        // If true add 'match' class, remove 'open' 'show' class 
                         console.log("Match Found!");
+                        openCards[0].classList.add('match');
+                        openCards[0].classList.remove('open', 'show');
+                        openCards[1].classList.add('match');
+                        openCards[1].classList.remove('open', 'show');
+                        // remove cards from openCards array
+                        openCards = [];
                         break;
                     case false:
-                        console.log('No Match!')
+                        // if false add 'noMatch'class
+                        openCards[0].classList.add('noMatch');
+                        openCards[1].classList.add('noMatch');
+                        // Wait a period of time before removing open, show, noMatch classes
+                        setTimeout(function(){ 
+                            openCards[0].classList.remove('open', 'show', 'noMatch');
+                            openCards[1].classList.remove('open', 'show', 'noMatch');
+                            // remove cards from openCards array
+                            openCards = [];
+                        }, 1500);
+                        
                         break
                 }
             }
