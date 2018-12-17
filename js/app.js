@@ -44,10 +44,21 @@ let openCards = [];
 //Add event flip funcitonality to cards using click event listener.
 allCards.forEach(function(card){
     card.addEventListener('click',function(event){
+        openCards.push(card);// Add clicked card to openCard array.
         if (openCards.length <= 2) {// flip cards using show and open class.
-            openCards.push(card);// Add clicked card to openCard array.
             card.classList.add('show', 'open');
-            }           
+            if (openCards.length == 2){
+                switch(openCards[0].firstElementChild.className == openCards[1].firstElementChild.className){
+                    case true:
+                        console.log("Match Found!");
+                        break;
+                    case false:
+                        console.log('No Match!')
+                        break
+                }
+            }
+        
+        }           
 
     });
 });
