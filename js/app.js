@@ -51,7 +51,9 @@ allCards.forEach(function(card){
             if (openCards.length == 2){
                 if (openCards[0].firstElementChild.className == openCards[1].firstElementChild.className){
                     matchActions();
-                } else { noMatchActions();}   
+                } else {
+                    noMatchActions();
+                }   
             }
         }
         finalScore();
@@ -62,30 +64,36 @@ allCards.forEach(function(card){
 
 function matchActions(){
     // If true add 'match' class, remove 'open' 'show' class 
-    openCards[0].classList.add('match');
-    openCards[0].classList.remove('open', 'show');
-    openCards[1].classList.add('match');
-    openCards[1].classList.remove('open', 'show');
-    // remove cards from openCards array
-    openCards = [];
+    setTimeout(function(){ 
+        openCards[0].classList.add('match');
+        openCards[0].classList.remove('open', 'show');
+        openCards[1].classList.add('match');
+        openCards[1].classList.remove('open', 'show');
+        // remove cards from openCards array
+        openCards = [];
+    }, 500);
     matchCounter++; 
 }
 
 function noMatchActions(){
     // if false add 'noMatch'class
-    openCards[0].classList.add('noMatch');
-    openCards[1].classList.add('noMatch');
-    // Wait a period of time before removing open, show, noMatch classes
     setTimeout(function(){ 
-        openCards[0].classList.remove('open', 'show', 'noMatch');
-        openCards[1].classList.remove('open', 'show', 'noMatch');
-        // remove cards from openCards array
-        openCards = [];
-    }, 1500);
+        openCards[0].classList.add('noMatch');
+        openCards[1].classList.add('noMatch');
+        // Wait a period of time before removing open, show, noMatch classes
+        setTimeout(function(){ 
+            openCards[0].classList.remove('open', 'show', 'noMatch');
+            openCards[1].classList.remove('open', 'show', 'noMatch');
+            // remove cards from openCards array
+            openCards = [];
+        }, 1500);
+    }, 250);
 }
 
 function finalScore(){
     if (matchCounter == 8){
-        console.log('Final Score is 100%!')
+        setTimeout(function(){ 
+            window.alert('Final Score is 100%!');
+        }, 510);
     }
 }
