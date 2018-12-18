@@ -1,6 +1,11 @@
 /*
  * Create a list that holds all of your cards
  */
+let allCards = document.querySelectorAll('.card');
+let cardList = [];
+allCards.forEach(function(card2,index){
+    cardList[index] = card2.firstElementChild
+});
 
 
 /*
@@ -9,6 +14,9 @@
  *   - loop through each card and create its HTML
  *   - add each card's HTML to the page
  */
+cardList = shuffle(cardList);
+
+
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -28,18 +36,16 @@ function shuffle(array) {
 
 /*
  * set up the event listener for a card. If a card is clicked:
- *  - display the card's symbol (put this functionality in another function that you call from this one)
- *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
+ *d? - display the card's symbol (put this functionality in another function that you call from this one)
+ *d? - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
  *d  - if the list already has another card, check to see if the two cards match
  *d   + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
  *d   + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
- *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
+ *d   + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *d   + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
 
-// Put all cards into an array
-let allCards = document.querySelectorAll('.card');
-// Create an array for all open cards
+
 let openCards = [];
 let matchCounter = 0;
 let moveCounter = document.getElementsByClassName('moves');
