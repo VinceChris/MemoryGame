@@ -3,10 +3,30 @@
  */
 let allCards = document.querySelectorAll('.card');
 let cardList = [];
-allCards.forEach(function(card2,index){
-    cardList[index] = card2.firstElementChild
+allCards.forEach(function(cardX,index){
+    cardList[index] = cardX.firstElementChild;
 });
 
+function displayChild(array1){
+    array1.forEach(function(item,index){
+       console.log(array1[index].firstElementChild); 
+    });
+}
+
+function displayCard(array2){
+    array2.forEach(function(item,index){
+       console.log(array2[index]); 
+    });
+}
+
+function updateChildren(cardArray, classArray){
+    cardArray.forEach(function(card, index){
+        //console.log(element.firstElementChild.innerText + " set equal to" + array4.innerText);
+        card.firstElementChild.className = classArray[index].className;
+    });
+}
+//Perform the shuffle
+updateChildren(allCards, cardList);
 
 /*
  * Display the cards on the page
@@ -15,6 +35,10 @@ allCards.forEach(function(card2,index){
  *   - add each card's HTML to the page
  */
 cardList = shuffle(cardList);
+
+cardList.forEach(function(cardY,item,array){
+    allCards[item].firstElementChild = cardY;
+});
 
 
 
