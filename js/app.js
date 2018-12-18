@@ -34,7 +34,7 @@ function shuffle(array) {
  *d   + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
  *d   + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
- *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
+ *d   + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
 
 // Put all cards into an array
@@ -42,13 +42,17 @@ let allCards = document.querySelectorAll('.card');
 // Create an array for all open cards
 let openCards = [];
 let matchCounter = 0;
-//Add event flip funcitonality to cards using click event listener.
+let moveCounter = document.getElementsByClassName('moves');
+
+//Add card flip funcitonality using click event listener.
 allCards.forEach(function(card){
     card.addEventListener('click',function(event){
-        openCards.push(card);// Add clicked card to openCard array.
+        openCards.push(card);// Add card to openCard array.
         if (openCards.length <= 2) {// flip cards using show and open class.
             card.classList.add('show', 'open');
             if (openCards.length == 2){
+                //increment the move counter
+                ++moveCounter[0].innerText 
                 if (openCards[0].firstElementChild.className == openCards[1].firstElementChild.className){
                     matchActions();
                 } else {
@@ -56,6 +60,7 @@ allCards.forEach(function(card){
                 }   
             }
         }
+        // Once all cards are matched show final score, reset the game.
         finalScore();
     });           
 
@@ -91,9 +96,12 @@ function noMatchActions(){
 }
 
 function finalScore(){
-    if (matchCounter == 8){
+    if (matchCounter == allCards.length/2){
         setTimeout(function(){ 
             window.alert('Final Score is 100%!');
+            allCards.forEach(function(card){
+                card.classList.remove('match');
+            })
         }, 510);
     }
 }
