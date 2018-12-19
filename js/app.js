@@ -9,6 +9,9 @@ allCards.forEach(function(cardX,index){
     cardList[index] = cardX.firstElementChild.className;
     console.log('cardList initialized ' + cardList[index]);
 });
+//*** 1. implement the restart button   ***
+//*** 2. implement the star rating      ***
+//*** 3. implement the timer            ***
 
 /*
  * Display the cards on the page
@@ -75,6 +78,7 @@ deck.addEventListener('click', respondToTheClick);
 function respondToTheClick(event){
     console.log(event.target)
     isFirstClick(); // shuffle cards at start of game
+    //*** check if card is matched or open already, ignore click if so.***
     openCards.push(event.target);// Add card to openCard array.
     if (openCards.length <= 2) {// flip cards using show and open class.
         event.target.classList.add('show', 'open');
@@ -120,6 +124,7 @@ function noMatchActions(){
 function finalScore(){
     if (matchCounter == allCards.length/2){
         setTimeout(function(){ 
+            // ***add button to play again, how much time it took, how many stars***
             window.alert('Final Score is 100%!');
             matchCounter = 0;                   // reset the card match counter 
             moveCounter[0].innerText = 0;       // reset the move counter
