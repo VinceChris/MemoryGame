@@ -2,6 +2,7 @@
  * Create a list that holds all of your cards
  */
 let allCards = document.querySelectorAll('.card'); // Array holds the cards
+let deck = document.querySelector('.deck');
 let cardList = []; // Array to hold the card type.
 
 allCards.forEach(function(cardX,index){
@@ -69,29 +70,27 @@ let matchCounter = 0;
 let moveCounter = document.getElementsByClassName('moves');
 
 //Add card flip funcitonality using click event listener.
-allCards.forEach(function(card){
-    card.addEventListener('click',function(event){
-        isFirstClick(); // shuffle cards at start of game
-        // ***add checks for clicking matched card.***
-        openCards.push(card);// Add card to openCard array.
-        if (openCards.length <= 2) {// flip cards using show and open class.
-            card.classList.add('show', 'open');
-            if (openCards.length == 2){
-                ++moveCounter[0].innerText //increment the move counter 
-                if (openCards[0].firstElementChild.className == openCards[1].firstElementChild.className){
-                    matchActions();
-                } else {
-                    noMatchActions();
-                }   
-            }
+deck.addEventListener('click', respondToTheClick);
+
+function respondToTheClick(event){
+    console.log(event.target)
+    isFirstClick(); // shuffle cards at start of game
+    openCards.push(event.target);// Add card to openCard array.
+    if (openCards.length <= 2) {// flip cards using show and open class.
+        event.target.classList.add('show', 'open');
+        if (openCards.length == 2){
+            ++moveCounter[0].innerText //increment the move counter 
+            if (openCards[0].firstElementChild.className == openCards[1].firstElementChild.className){
+                matchActions();
+            } else {
+                noMatchActions();
+            }   
         }
-        // Once all cards are matched show final score, reset the game.
-        finalScore();
-    });           
+    }
+    finalScore();// Once all cards are matched show final score, reset the game.
+}   
 
-});
-
-
+//------------------------------------------------------------------------------------
 function matchActions(){
     // If true add 'match' class, remove 'open' 'show' class 
     setTimeout(function(){ 
