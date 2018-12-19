@@ -71,17 +71,35 @@ function shuffle(array) {
 let openCards = [];
 let matchCounter = 0;
 let moveCounter = document.getElementsByClassName('moves');
-
+let clickedCard = '';
 //Add card flip funcitonality using click event listener.
 deck.addEventListener('click', respondToTheClick);
 
 function respondToTheClick(event){
-    console.log(event.target)
+    console.log(event.target);
+    clickedCard = event.target;
     isFirstClick(); // shuffle cards at start of game
+    addCardToOpenList(clickedCard);
+    
     //*** check if card is matched or open already, ignore click if so.***
-    openCards.push(event.target);// Add card to openCard array.
+    
+    finalScore();// Once all cards are matched show final score, reset the game.
+}   
+
+function addCardToOpenList(card){
+    //check if clicked card is already open, matched, or the card type.
+    if(card.classList.contains('open') || card.classList.contains('match') || card.classList.contains('fa')){
+        console.log('open card was clicked.');
+    }else {
+        openCards.push(card);// Add card to openCard array.
+        displayCardSymbol(card);
+    }
+
+}
+
+function displayCardSymbol(card){
     if (openCards.length <= 2) {// flip cards using show and open class.
-        event.target.classList.add('show', 'open');
+        card.classList.add('show', 'open');
         if (openCards.length == 2){
             ++moveCounter[0].innerText //increment the move counter 
             if (openCards[0].firstElementChild.className == openCards[1].firstElementChild.className){
@@ -91,9 +109,7 @@ function respondToTheClick(event){
             }   
         }
     }
-    finalScore();// Once all cards are matched show final score, reset the game.
-}   
-
+}
 //------------------------------------------------------------------------------------
 function matchActions(){
     // If true add 'match' class, remove 'open' 'show' class 
