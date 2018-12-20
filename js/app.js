@@ -10,9 +10,14 @@ allCards.forEach(function(cardX,index){
     console.log('cardList initialized ' + cardList[index]);
 });
 //*** 1. implement the restart button   ***
-//*** 2. implement the star rating      ***
-//*** 3. implement the timer            ***
+let restartButton = document.querySelector('.restart');
+restartButton.addEventListener('click',function(){
+    resetGame();
+});
 
+//*** 2. implement the star rating      ***
+
+let startTime, endTime, timeDiff;
 /*
  * Display the cards on the page
  *d  - shuffle the list of cards using the provided "shuffle" method below
@@ -25,6 +30,7 @@ let clickCounter = 0;
 function isFirstClick(){
     ++clickCounter
     if (clickCounter == 1){
+        startTime = new Date();
         cardList = shuffle(cardList);
         removeCardsClass(allCards);
         placeShuffledCards();
@@ -58,8 +64,8 @@ function shuffle(array) {
 
 /*
  * set up the event listener for a card. If a card is clicked:
- *d? - display the card's symbol (put this functionality in another function that you call from this one)
- *d? - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
+ *d - display the card's symbol (put this functionality in another function that you call from this one)
+ *d - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
  *d  - if the list already has another card, check to see if the two cards match
  *d   + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
  *d   + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
@@ -68,28 +74,25 @@ function shuffle(array) {
  */
 
 
-let openCards = [];
-let matchCounter = 0;
-let moveCounter = document.getElementsByClassName('moves');
-let clickedCard = '';
+let openCards = [];             // array to hold open card list
+let matchCounter = 0;           // variable to count number of matched cards
+let moveCounter = document.getElementsByClassName('moves'); // variable to display number of moves
+let clickedCard = '';           // variable to hold the last clicked card element.
+
 //Add card flip funcitonality using click event listener.
 deck.addEventListener('click', respondToTheClick);
 
 function respondToTheClick(event){
-    console.log(event.target);
-    clickedCard = event.target;
-    isFirstClick(); // shuffle cards at start of game
-    addCardToOpenList(clickedCard);
-    
-    //*** check if card is matched or open already, ignore click if so.***
-    
-    finalScore();// Once all cards are matched show final score, reset the game.
+    clickedCard = event.target;      
+    isFirstClick();                 // shuffle cards at start of game
+    addCardToOpenList(clickedCard); // Flip Cards and Card Evaluation
+    finalScore();                   // Win Game with final score, reset the game.
 }   
 
 function addCardToOpenList(card){
     //check if clicked card is already open, matched, or the card type.
-    if(card.classList.contains('open') || card.classList.contains('match') || card.classList.contains('fa')){
-        console.log('open card was clicked.');
+    if(card.classList.contains('deck') || card.classList.contains('open') || card.classList.contains('match') || card.classList.contains('fa')){
+        console.log('open card was clicked');
     }else {
         openCards.push(card);// Add card to openCard array.
         displayCardSymbol(card);
@@ -97,6 +100,7 @@ function addCardToOpenList(card){
 
 }
 
+// Checks number of open cards, flips card, 
 function displayCardSymbol(card){
     if (openCards.length <= 2) {// flip cards using show and open class.
         card.classList.add('show', 'open');
@@ -139,16 +143,27 @@ function noMatchActions(){
 
 function finalScore(){
     if (matchCounter == allCards.length/2){
+        endTime = new Date();
+        calcTime();
         setTimeout(function(){ 
             // ***add button to play again, how much time it took, how many stars***
-            window.alert('Final Score is 100%!');
-            matchCounter = 0;                   // reset the card match counter 
-            moveCounter[0].innerText = 0;       // reset the move counter
-            allCards.forEach(function(card){
-                card.classList.remove('match'); // hide all the cards
-            })
-            clickCounter = 0;                   //reset the clickCounter
+            window.alert('Final Score is 100%!  It only took you ' + timeDiff + ' seconds');
+            resetGame();    
         }, 510);
     }
+}
+
+function calcTime(){
+    timeDiff = endTime - startTime;
+    timeDiff /= 1000;
+}
+
+function resetGame(){
+    matchCounter = 0;                   // reset the card match counter 
+    moveCounter[0].innerText = 0;       // reset the move counter
+    allCards.forEach(function(card){
+        card.classList.remove('match'); // hide all the cards
+    })
+    clickCounter = 0;                   //reset the clickCounter
 }
 
