@@ -16,8 +16,16 @@ restartButton.addEventListener('click',function(){
 });
 
 //*** 2. implement the star rating      ***
+let stars = document.querySelector('.stars');
+let star3 = stars.children[2];
+let star2 = stars.children[1];
+let star1 = stars.children[0];
+let startTime, endTime, timeDiff, seconds, minutes, completionTime;
 
-let startTime, endTime, timeDiff;
+/*stars.children.forEach(function(element,index,array){
+    console.log(element.firstElementChild.innerHTML);
+});*/
+
 /*
  * Display the cards on the page
  *d  - shuffle the list of cards using the provided "shuffle" method below
@@ -105,7 +113,7 @@ function displayCardSymbol(card){
     if (openCards.length <= 2) {// flip cards using show and open class.
         card.classList.add('show', 'open');
         if (openCards.length == 2){
-            ++moveCounter[0].innerText //increment the move counter 
+            starRating(); 
             if (openCards[0].firstElementChild.className == openCards[1].firstElementChild.className){
                 matchActions();
             } else {
@@ -141,21 +149,36 @@ function noMatchActions(){
     }, 250);
 }
 
+function starRating(){
+    ++moveCounter[0].innerText //increment the move counter
+    if (moveCounter[0].innerText == 16){
+        star3.remove();
+    } if (moveCounter[0].innerText == 24){
+        star2.remove();
+    } else{}
+}
+
 function finalScore(){
     if (matchCounter == allCards.length/2){
         endTime = new Date();
         calcTime();
         setTimeout(function(){ 
             // ***add button to play again, how much time it took, how many stars***
-            window.alert('Final Score is 100%!  It only took you ' + timeDiff + ' seconds');
+            window.alert('Congratulations!  It only took you ' + completionTime + ' and your rating is');
             resetGame();    
         }, 510);
     }
 }
 
 function calcTime(){
-    timeDiff = endTime - startTime;
-    timeDiff /= 1000;
+    timeDiff = (endTime - startTime)/1000;
+    if (timeDiff >= 60){
+        seconds = timeDiff % 60;
+        minutes = floor(timediff / 60);
+        completionTime = minutes + " minutes" + seconds + " seconds";
+    } else{
+        completionTime = timeDiff + " seconds";
+    }
 }
 
 function resetGame(){
@@ -165,5 +188,17 @@ function resetGame(){
         card.classList.remove('match'); // hide all the cards
     })
     clickCounter = 0;                   //reset the clickCounter
+    star1.append(star2, star3);
 }
 
+function matchCards(){
+    allCards.forEach(function(card){
+        card.classList.add('match'); 
+    })
+}
+
+function closeCards(){
+    allCards.forEach(function(card){
+        card.classList.remove('match'); 
+    }) 
+}
