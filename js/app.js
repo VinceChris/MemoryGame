@@ -20,7 +20,13 @@ let stars = document.querySelector('.stars');
 let star3 = stars.children[2];
 let star2 = stars.children[1];
 let star1 = stars.children[0];
-let startTime, endTime, timeDiff, seconds, minutes, completionTime;
+let starCount = 3;
+let startTime = 0; 
+let endTime = 0;
+let timeDiff = 0;
+let seconds = 0;
+let minutes = 0;
+let completionTime = 0;
 
 /*stars.children.forEach(function(element,index,array){
     console.log(element.firstElementChild.innerHTML);
@@ -152,9 +158,11 @@ function noMatchActions(){
 function starRating(){
     ++moveCounter[0].innerText //increment the move counter
     if (moveCounter[0].innerText == 16){
-        star3.remove();
+        starCount = 2;
+        star3.firstElementChild.style.color = 'black';
     } if (moveCounter[0].innerText == 24){
-        star2.remove();
+        starCount = 1;
+        star2.firstElementChild.style.color = 'black';
     } else{}
 }
 
@@ -164,7 +172,7 @@ function finalScore(){
         calcTime();
         setTimeout(function(){ 
             // ***add button to play again, how much time it took, how many stars***
-            window.alert('Congratulations!  It only took you ' + completionTime + ' and your rating is');
+            window.alert('Congratulations!  It only took you ' + completionTime + ' and your rating is ' + starCount + ' stars! Click ok to start a new game.');
             resetGame();    
         }, 510);
     }
@@ -174,7 +182,7 @@ function calcTime(){
     timeDiff = (endTime - startTime)/1000;
     if (timeDiff >= 60){
         seconds = timeDiff % 60;
-        minutes = floor(timediff / 60);
+        minutes = Math.floor(timediff / 60);
         completionTime = minutes + " minutes" + seconds + " seconds";
     } else{
         completionTime = timeDiff + " seconds";
@@ -188,7 +196,9 @@ function resetGame(){
         card.classList.remove('match'); // hide all the cards
     })
     clickCounter = 0;                   //reset the clickCounter
-    star1.append(star2, star3);
+    starCount = 3;
+    star3.firstElementChild.style.color = 'gold';
+    star2.firstElementChild.style.color = 'gold';
 }
 
 function matchCards(){
