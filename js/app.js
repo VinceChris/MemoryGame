@@ -26,23 +26,14 @@ let timeDiff = 0;
 let seconds = 0;
 let minutes = 0;
 let completionTime = 0;
-
-/*stars.children.forEach(function(element,index,array){
-    console.log(element.firstElementChild.innerHTML);
-});*/
-
-/*
- * Display the cards on the page
- *d  - shuffle the list of cards using the provided "shuffle" method below
- *d  - loop through each card and create its HTML
- *d  - add each card's HTML to the page
- */
+let gameclock = 0;
 
 //Initialize the game on first click. Shuffle cards and place on board.
 let clickCounter = 0;
 function isFirstClick(){
     ++clickCounter
     if (clickCounter == 1){
+        gameClock = setInterval(updateTimer, 1000);
         startTime = new Date();
         cardList = shuffle(cardList);
         removeCardsClass(allCards);
@@ -73,18 +64,6 @@ function shuffle(array) {
     }
     return array;
 }
-
-
-/*
- * set up the event listener for a card. If a card is clicked:
- *d - display the card's symbol (put this functionality in another function that you call from this one)
- *d - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
- *d  - if the list already has another card, check to see if the two cards match
- *d   + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
- *d   + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
- *d   + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
- *d   + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
- */
 
 
 let openCards = [];             // array to hold open card list
@@ -168,7 +147,7 @@ function starRating(){
 function finalScore(){
     if (matchCounter == allCards.length/2){
         endTime = new Date();
-        calcTime();
+        //calcTime();
         setTimeout(function(){ 
             // ***add button to play again, how much time it took, how many stars***
             window.alert('Congratulations!  It only took you ' + completionTime + ' and your rating is ' + starCount + ' stars! Click ok to start a new game.');
@@ -177,38 +156,39 @@ function finalScore(){
     }
 }
 
-function calcTime(){
-    timeDiff = (endTime - startTime)/1000;
-    if (timeDiff >= 60){
-        seconds = timeDiff % 60;
-        minutes = Math.floor(timediff / 60);
-        completionTime = minutes + " minutes" + seconds + " seconds";
-    } else{
-        completionTime = timeDiff + " seconds";
-    }
-}
+
 
 function resetGame(){
     matchCounter = 0;                   // reset the card match counter 
     moveCounter[0].innerText = 0;       // reset the move counter
     allCards.forEach(function(card){
         card.classList.remove('match'); // hide all the cards
+        card.classList.remove('open'); // hide all the cards
+        card.classList.remove('show'); // hide all the cards
     })
     clickCounter = 0;                   //reset the clickCounter
     starCount = 3;
     star3.firstElementChild.style.color = 'gold';
     star2.firstElementChild.style.color = 'gold';
+    resetTimer();
 }
 
 let minutesLabel = document.getElementById("minutes");
 let secondsLabel = document.getElementById("seconds");
 let totalSeconds = 0;
-setInterval(updateTimer, 1000);
+
 
 function updateTimer() {
   ++totalSeconds;
   secondsLabel.innerHTML = calcTime(totalSeconds % 60);
   minutesLabel.innerHTML = calcTime(parseInt(totalSeconds / 60));
+}
+
+function resetTimer(){
+    clearInterval(gameClock);
+    totalSeconds = 0;
+    secondsLabel.innerHTML = "00";
+    minutesLabel.innerHTML = "00";
 }
 
 function calcTime(val) {
@@ -219,3 +199,16 @@ function calcTime(val) {
     return valString;
   }
 }
+
+/*
+function calcTime(){
+    timeDiff = (endTime - startTime)/1000;
+    if (timeDiff >= 60){
+        seconds = timeDiff % 60;
+        minutes = Math.floor(timediff / 60);
+        completionTime = minutes + " minutes" + seconds + " seconds";
+    } else{
+        completionTime = timeDiff + " seconds";
+    }
+}
+*/
