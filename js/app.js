@@ -7,7 +7,6 @@ let cardList = []; // Array to hold the card type.
 
 allCards.forEach(function(cardX,index){
     cardList[index] = cardX.firstElementChild.className;
-    console.log('cardList initialized ' + cardList[index]);
 });
 //*** 1. implement the restart button   ***
 let restartButton = document.querySelector('.restart');
@@ -106,7 +105,7 @@ function respondToTheClick(event){
 function addCardToOpenList(card){
     //check if clicked card is already open, matched, or the card type.
     if(card.classList.contains('deck') || card.classList.contains('open') || card.classList.contains('match') || card.classList.contains('fa')){
-        console.log('open card was clicked');
+        // do nothing.
     }else {
         openCards.push(card);// Add card to openCard array.
         displayCardSymbol(card);
@@ -201,14 +200,22 @@ function resetGame(){
     star2.firstElementChild.style.color = 'gold';
 }
 
-function matchCards(){
-    allCards.forEach(function(card){
-        card.classList.add('match'); 
-    })
+let minutesLabel = document.getElementById("minutes");
+let secondsLabel = document.getElementById("seconds");
+let totalSeconds = 0;
+setInterval(updateTimer, 1000);
+
+function updateTimer() {
+  ++totalSeconds;
+  secondsLabel.innerHTML = calcTime(totalSeconds % 60);
+  minutesLabel.innerHTML = calcTime(parseInt(totalSeconds / 60));
 }
 
-function closeCards(){
-    allCards.forEach(function(card){
-        card.classList.remove('match'); 
-    }) 
+function calcTime(val) {
+  let valString = val + "";
+  if (valString.length < 2) {
+    return "0" + valString;
+  } else {
+    return valString;
+  }
 }
