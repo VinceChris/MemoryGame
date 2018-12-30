@@ -149,7 +149,8 @@ function starRating(){
 function finalScore(){
     if (matchCounter == 8){
         setTimeout(function(){ 
-            window.alert('Congratulations!  It only took you ' + minutesLabel.innerHTML + ':' + secondsLabel.innerHTML + ' and your rating is ' + starCount + ' stars! Click ok to start a new game.');
+            let winMessage = `Congratulations!  It only took you ${minutesLabel.innerHTML} : ${secondsLabel.innerHTML} and your rating is ${starCount} stars! Click ok to start a new game.`
+            window.alert(winMessage);
             resetGame();    
         }, 510);
     }
